@@ -1,23 +1,27 @@
 package com.identifiers.controllers;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.identifiers.models.Bovine;
+import com.identifiers.dto.IdentifierDto;
 import com.identifiers.models.Identifier;
 import com.identifiers.services.IIdentifierService;
 
 @RestController
 public class IdentifierController {
 	@Autowired
-	private IIdentifierService identifierService ;
+	private IIdentifierService identifierService;
+	
+	@GetMapping(value="/identifiers")
+	public List<IdentifierDto> identifiersIncludeBovines(){
+		//return identifierService.findAll();
+		//System.out.println("bovine: "+bovine.toString());
+		return identifierService.identifiersIncludeBovines();
+	}
 	
 	//obtiene los diios segun el bovino consultado
 	@GetMapping(value="/identifiers/bovine/{bovine}")

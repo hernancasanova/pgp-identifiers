@@ -3,9 +3,9 @@ package com.identifiers.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.identifiers.dto.IdentifierDto;
 import com.identifiers.models.Identifier;
 
 public interface IdentifierDao extends JpaRepository<Identifier,Long>{
@@ -18,4 +18,8 @@ public interface IdentifierDao extends JpaRepository<Identifier,Long>{
 	List<Identifier> findByBovine(Long bovine);
 	//List<Identifier> findByBovine(Long bovine_id);
 	List<Identifier> findByDiio(String diio);
+	
+	@Query(value="SELECT i.DIIO, b.NAME, i.DATE_PLACEMENT AS datePlacement, i.STATE FROM HERNAN.IDENTIFIERS i JOIN HERNAN.BOVINES b ON i.BOVINE_ID = b.ID", nativeQuery=true)
+	List<IdentifierDto> identifiersIncludeBovines();
+	
 }

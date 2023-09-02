@@ -1,6 +1,5 @@
 package com.identifiers.models;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
@@ -75,6 +74,18 @@ public class Bovine{
 	public Date date_sale;
 	
 	
+	@Column(name="VERIFIED_SAG")
+	public String verified_sag;
+	
+	
+	public String getVerified_sag() {
+		return verified_sag;
+	}
+
+	public void setVerified_sag(String verified_sag) {
+		this.verified_sag = verified_sag;
+	}
+
 	public Long getId() {
 		return id;
 	}

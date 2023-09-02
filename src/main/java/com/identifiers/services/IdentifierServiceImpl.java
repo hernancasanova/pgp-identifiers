@@ -1,8 +1,5 @@
 package com.identifiers.services;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.identifiers.dao.IdentifierDao;
+import com.identifiers.dto.IdentifierDto;
 import com.identifiers.models.Identifier;
 //import com.pgp.dao.BovineDao;
 //import com.pgp.models.Bovine;
@@ -19,7 +17,7 @@ public class IdentifierServiceImpl implements IIdentifierService{
 	//IdentifierDao
 	//@Autowired
 	//private BovineDao bovineDao; 
-	
+
 	@Autowired
 	private IdentifierDao identifierDao; 
 	
@@ -39,6 +37,10 @@ public class IdentifierServiceImpl implements IIdentifierService{
 	public List<Identifier> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<IdentifierDto> identifiersIncludeBovines() {
+		return (List<IdentifierDto>)identifierDao.identifiersIncludeBovines();
 	}
 	
 	/*@Transactional
