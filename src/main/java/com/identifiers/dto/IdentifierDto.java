@@ -2,14 +2,17 @@ package com.identifiers.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public interface IdentifierDto {
 	//int  getId();
+	@JsonProperty(value = "Diio")
 	String getDiio();
-	@JsonProperty(value = "bovine associated")
+	@JsonProperty(value = "Bovine associated")
 	String getName();
-	@JsonProperty(value = "date placement")
+	@JsonProperty(value = "Date placement")
+	@JsonFormat(pattern="dd-MM-yyyy")
 	Date getDatePlacement();
 	//Date getDateBirth();
 	//String getMother();
@@ -17,6 +20,7 @@ public interface IdentifierDto {
 	//String getType();
 	//String getAge();
 	//String getVerifiedSag();
+	@JsonProperty(value = "State")
 	String getState();
 	//String getDateSale();
 }
