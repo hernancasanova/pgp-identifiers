@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,11 @@ public class IdentifierController {
 		//return identifierService.findAll();
 		//System.out.println("bovine: "+bovine.toString());
 		return identifierService.identifiersIncludeBovines();
+	}
+	
+	@PatchMapping(value="/identifiers/{diio}/deactivate")
+	public boolean deactivate(@PathVariable String diio){
+		return identifierService.deactivate(diio);
 	}
 	
 	//obtiene los diios segun el bovino consultado

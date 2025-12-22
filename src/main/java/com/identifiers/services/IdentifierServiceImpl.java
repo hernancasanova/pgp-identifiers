@@ -42,6 +42,18 @@ public class IdentifierServiceImpl implements IIdentifierService{
 	public List<IdentifierDto> identifiersIncludeBovines() {
 		return (List<IdentifierDto>)identifierDao.identifiersIncludeBovines();
 	}
+
+	@Override
+	public boolean deactivate(String diio){
+		boolean result=false;
+		try {
+			result=identifierDao.deactivate(diio);
+			return result;
+		} catch (Exception e) {
+			System.out.println("Error al desactivar DIIO");
+			return result;
+		}
+	}
 	
 	/*@Transactional
 	@Override
