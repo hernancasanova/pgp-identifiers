@@ -13,5 +13,5 @@ public interface IIdentifierService {
 	public List<Identifier> findByDiio(String diio);
 	public List<IdentifierDto> identifiersIncludeBovines();
 	boolean deactivate(String diio);
-	//public void register(String diio,String date_placement, Long bovine);
+	public void register(String diio,String date_placement, Long bovine);
 }

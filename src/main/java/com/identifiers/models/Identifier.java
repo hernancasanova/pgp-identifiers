@@ -1,18 +1,11 @@
 package com.identifiers.models;
 
 import java.io.Serializable;
-//import java.util.Date;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -38,22 +31,22 @@ public class Identifier implements Serializable{
 	public String diio;
 	
 	
-	//@Column(name="BOVINE_ID")
-	@ManyToOne
-    @JoinColumn(name="BOVINE_ID", nullable=false)
-	public Bovine bovine;
+	@Column(name="BOVINE_ID")
+	//@ManyToOne
+    //@JoinColumn(name="BOVINE_ID", nullable=false)
+	//public Bovine bovine;
+	public Long bovine;
 	
 	
 	@Column(name="DATE_PLACEMENT")
-	public LocalDateTime date_placement;
-	
-	
-	public Bovine getBovine() {
+	public LocalDateTime datePlacement;
+
+	public Long getBovine() {
 		return bovine;
 	}
 
 
-	public void setBovine(Bovine bovine) {
+	public void setBovine(Long bovine) {
 		this.bovine = bovine;
 	}
 
@@ -72,16 +65,16 @@ public class Identifier implements Serializable{
 	}
 	
 	
-	public LocalDateTime getDate_placement() {
-		return date_placement;
+	public LocalDateTime getDatePlacement() {
+		return datePlacement;
 	}
-	
-	
-	public void setDate_placement(LocalDateTime date_placement) {
-		this.date_placement = date_placement;
+
+
+	public void setDatePlacement(LocalDateTime datePlacement) {
+		this.datePlacement = datePlacement;
 	}
-	
-	
+
+
 	public String getState() {
 		return state;
 	}

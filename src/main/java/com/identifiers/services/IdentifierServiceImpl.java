@@ -1,5 +1,8 @@
 package com.identifiers.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,24 +58,26 @@ public class IdentifierServiceImpl implements IIdentifierService{
 		}
 	}
 	
-	/*@Transactional
+	@Transactional
 	@Override
-	public void register(String diio,String date_placement,Long bovine) {
+	public void register(String diio,String date_placement,Long bov) {
 		List <Identifier> identifiersList = new ArrayList<Identifier>();
 		String pattern = "yyyy-MM-dd'T'HH:mm:ss";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		LocalDateTime dateTime = LocalDateTime.parse(date_placement, formatter);
-		//Bovine bov=bovineDao.findById(bovine).orElse(null);
-		//identifierDao.desactivateDiios(bov.getId());
-		Identifier identifier=new Identifier();
-		identifier.setDate_placement(dateTime);
-		identifier.setDiio(diio);
-		identifier.setState("activo");
-		//identifierDao.save(identifier)
-		identifier.setBovine(bov);
-		identifierDao.save(identifier);
-		identifiersList.add(identifier);
-		//bov.setIdentifiers(identifiersList);
+		//Bovine bov=bovineDao.findById(bov).orElse(null);
+		if(bov!=null) {
+			identifierDao.desactivateDiios(bov);
+			Identifier identifier=new Identifier();
+			identifier.setDatePlacement(dateTime);
+			identifier.setDiio(diio);
+			identifier.setState("activo");
+			//identifierDao.save(identifier)
+			identifier.setBovine(bov);
+			identifierDao.save(identifier);
+			identifiersList.add(identifier);
+			//bov.setIdentifiers(identifiersList);
+		}
 		
-	}*/
+	}
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.identifiers.dto.IdentifierDto;
@@ -43,6 +45,21 @@ public class IdentifierController {
 	public List<Identifier> diiosBovine(@PathVariable String diio){
 		//return identifierService.findAll();
 		return identifierService.findByDiio(diio);
+	}
+	
+	
+	@PostMapping("/identifiers/create")
+	public int register(@RequestParam String diio, @RequestParam String date_placement,@RequestParam Long bovine ) {
+		int statusCode;
+		try {
+			identifierService.register(diio,date_placement,bovine);
+			statusCode=200;
+			return statusCode;
+		}catch(Exception e) {
+			System.out.println("Error al guardar diio: "+e);
+			statusCode=500;
+			return statusCode;
+		}
 	}
 	
 	

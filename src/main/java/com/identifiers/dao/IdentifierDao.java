@@ -3,6 +3,7 @@ package com.identifiers.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.identifiers.dto.IdentifierDto;
@@ -24,5 +25,9 @@ public interface IdentifierDao extends JpaRepository<Identifier,String>{
 	
 	@Query(value="UPDATE HERNAN.IDENTIFIERS set STATE='inactivo' WHERE DIIO=? ", nativeQuery=true)
 	boolean deactivate(String diio);
+	
+	@Modifying
+	@Query(value="UPDATE HERNAN.IDENTIFIERS i SET i.STATE='inactivo' WHERE i.STATE='activo' AND i.BOVINE_ID = ? ", nativeQuery=true)
+	void desactivateDiios(Long bovine_id);
 	
 }
