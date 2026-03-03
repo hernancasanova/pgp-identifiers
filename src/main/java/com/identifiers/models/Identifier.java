@@ -5,12 +5,18 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(name="IDENTIFIERS", schema="HERNAN")
+@Table(name="IDENTIFIERS",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_identifiers_diio", columnNames = "diio")
+    })
 public class Identifier implements Serializable{
 	
 	
@@ -22,12 +28,12 @@ public class Identifier implements Serializable{
 	private static final long serialVersionUID = 2034674840461817925L;
 
 
+	
 	@Id
-	/*@Column(name="ID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE_DOCUMENT")
-	@SequenceGenerator(schema = "HERNAN", name = "SEQUENCE_DOCUMENT",
-    sequenceName = "SEQUENCE_DOCUMENT" , allocationSize=1)*/  
-	@Column(name="DIIO")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long id;
+	
+	@Column(nullable = false)
 	public String diio;
 	
 	

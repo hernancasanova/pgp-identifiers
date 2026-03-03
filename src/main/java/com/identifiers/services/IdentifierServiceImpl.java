@@ -2,14 +2,15 @@ package com.identifiers.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.identifiers.dao.IdentifierDao;
+import com.identifiers.dto.ApiResponse;
 import com.identifiers.dto.IdentifierDto;
 import com.identifiers.models.Identifier;
 //import com.pgp.dao.BovineDao;
@@ -60,8 +61,8 @@ public class IdentifierServiceImpl implements IIdentifierService{
 	
 	@Transactional
 	@Override
-	public void register(String diio,String date_placement,Long bov) {
-		List <Identifier> identifiersList = new ArrayList<Identifier>();
+	public ResponseEntity<ApiResponse<String>> register(String diio,String date_placement,Long bov) {
+		//List <Identifier> identifiersList = new ArrayList<Identifier>();
 		String pattern = "yyyy-MM-dd'T'HH:mm:ss";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		LocalDateTime dateTime = LocalDateTime.parse(date_placement, formatter);
@@ -74,10 +75,28 @@ public class IdentifierServiceImpl implements IIdentifierService{
 			identifier.setState("activo");
 			//identifierDao.save(identifier)
 			identifier.setBovine(bov);
-			identifierDao.save(identifier);
-			identifiersList.add(identifier);
+			Identifier identifierSaved = identifierDao.save(identifier);
+			//String diioCreated =identifierSaved.getDiio();
+			ApiResponse<String> response = new ApiResponse<>(
+	                200,
+	                "Identifier created successfully",
+	                identifierSaved.getDiio()
+	            );
+	            
+	        return ResponseEntity.ok(response);
+			//identifiersList.add(identifier);
 			//bov.setIdentifiers(identifiersList);
 		}
-		
+		else {
+			// ApiResponse<String> response = new ApiResponse<>(
+	        //         400,
+	        //         "Bovine id is required",
+	        //         "Bovine id is required"
+	        //     );
+	            
+			return ResponseEntity
+			        .badRequest()
+			        .body(ApiResponse.error(400, "Bovine id is required"));
+		}
 	}
 }

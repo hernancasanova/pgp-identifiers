@@ -3,6 +3,7 @@ package com.identifiers.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.identifiers.dto.ApiResponse;
 import com.identifiers.dto.IdentifierDto;
 import com.identifiers.models.Identifier;
 import com.identifiers.services.IIdentifierService;
@@ -49,17 +51,17 @@ public class IdentifierController {
 	
 	
 	@PostMapping("/identifiers/create")
-	public int register(@RequestParam String diio, @RequestParam String date_placement,@RequestParam Long bovine ) {
-		int statusCode;
-		try {
-			identifierService.register(diio,date_placement,bovine);
-			statusCode=200;
-			return statusCode;
-		}catch(Exception e) {
-			System.out.println("Error al guardar diio: "+e);
-			statusCode=500;
-			return statusCode;
-		}
+	public ResponseEntity<ApiResponse<String>> register(@RequestParam String diio, @RequestParam String date_placement,@RequestParam Long bovine ) {
+		//int statusCode;
+		//try {
+			return identifierService.register(diio,date_placement,bovine);
+//			statusCode=200;
+//			return statusCode;
+//		}catch(Exception e) {
+//			System.out.println("Error al guardar diio: "+e);
+//			statusCode=500;
+//			return statusCode;
+//		}
 	}
 	
 	
