@@ -1,26 +1,27 @@
 package com.identifiers.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-public interface IdentifierDto {
-	//int  getId();
-	@JsonProperty(value = "Diio")
-	String getDiio();
-	@JsonProperty(value = "Bovine associated")
-	String getName();
-	@JsonProperty(value = "Date placement")
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class IdentifierDto{
+	String diio;
+	String name;
 	@JsonFormat(pattern="dd-MM-yyyy")
-	Date getDatePlacement();
-	//Date getDateBirth();
-	//String getMother();
-	//int getIdMother();
-	//String getType();
-	//String getAge();
-	//String getVerifiedSag();
-	@JsonProperty(value = "State")
-	String getState();
-	//String getDateSale();
+	LocalDateTime datePlacement;
+	String state;
+	
+	public IdentifierDto(String diio, String name, LocalDateTime datePlacement, String state) {
+		super();
+		this.diio = diio;
+		this.name = name;
+		this.datePlacement = datePlacement;
+		this.state = state;
+	}
+
 }

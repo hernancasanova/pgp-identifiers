@@ -3,6 +3,7 @@ package com.identifiers.services;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import com.identifiers.dao.IdentifierDao;
 import com.identifiers.dto.ApiResponse;
 import com.identifiers.dto.IdentifierDto;
 import com.identifiers.models.Identifier;
+import com.identifiers.utils.BovineUtils;
 //import com.pgp.dao.BovineDao;
 //import com.pgp.models.Bovine;
 
@@ -44,7 +46,16 @@ public class IdentifierServiceImpl implements IIdentifierService{
 	}
 	@Override
 	public List<IdentifierDto> identifiersIncludeBovines() {
-		return (List<IdentifierDto>)identifierDao.identifiersIncludeBovines();
+		List<Object[]> resultList = identifierDao.identifiersIncludeBovines();
+		return resultList.stream()
+			    .map(row -> new IdentifierDto(
+			        BovineUtils.formatDiio((String) row[0]),
+			        (String) row[1],
+			        row[2] != null ? ((java.sql.Timestamp) row[2]).toLocalDateTime() : null,
+			        (String) row[3]
+			    ))
+			    .collect(Collectors.toList());
+				
 	}
 
 	@Override
@@ -70,11 +81,11 @@ public class IdentifierServiceImpl implements IIdentifierService{
 		if(bov!=null) {
 			identifierDao.desactivateDiios(bov);
 			Identifier identifier=new Identifier();
-			identifier.setDatePlacement(dateTime);
 			identifier.setDiio(diio);
+			identifier.setBovine(bov);
+			identifier.setDatePlacement(dateTime);
 			identifier.setState("activo");
 			//identifierDao.save(identifier)
-			identifier.setBovine(bov);
 			Identifier identifierSaved = identifierDao.save(identifier);
 			//String diioCreated =identifierSaved.getDiio();
 			ApiResponse<String> response = new ApiResponse<>(

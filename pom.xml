@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.identifiers</groupId>
 	<artifactId>pgp-identifiers</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>pgp-identifiers</name>
 	<description>pgp-identifiers</description>
@@ -92,6 +92,17 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>8.5.13</version>
+				<configuration>
+					<url>jdbc:oracle:thin:@//localhost:1522/xe</url>
+					<user>system</user>
+					<password>oracle</password>
+					<schemas>HERNAN</schemas>
 				</configuration>
 			</plugin>
 		</plugins>

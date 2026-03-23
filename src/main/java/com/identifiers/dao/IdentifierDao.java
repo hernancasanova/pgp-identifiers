@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.identifiers.dto.IdentifierDto;
 import com.identifiers.models.Identifier;
 
 public interface IdentifierDao extends JpaRepository<Identifier,Long>{
@@ -21,13 +21,13 @@ public interface IdentifierDao extends JpaRepository<Identifier,Long>{
 	List<Identifier> findByDiio(String diio);
 	
 	@Query(value="SELECT i.DIIO, b.NAME, i.DATE_PLACEMENT AS datePlacement, i.STATE FROM HERNAN.IDENTIFIERS i JOIN HERNAN.BOVINES b ON i.BOVINE_ID = b.ID", nativeQuery=true)
-	List<IdentifierDto> identifiersIncludeBovines();
+	List<Object[]> identifiersIncludeBovines();
 	
 	@Query(value="UPDATE HERNAN.IDENTIFIERS set STATE='inactivo' WHERE DIIO=:diio ", nativeQuery=true)
 	boolean deactivate(String diio);
 	
 	@Modifying
-	@Query(value="UPDATE Identifier i SET i.state='inactivo' WHERE i.state='activo' AND i.bovine = :bovine_id ")
-	void desactivateDiios(Long bovine_id);
+	@Query(value="UPDATE Identifier i SET i.state='inactivo' WHERE i.state='activo' AND i.bovine = :bov ")
+	void desactivateDiios(@Param("bov") Long bov);
 	
 }

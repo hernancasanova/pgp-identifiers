@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -30,10 +31,12 @@ public class Identifier implements Serializable{
 
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE_IDENTIFIERS")
+	@SequenceGenerator(schema = "HERNAN", name = "SEQUENCE_IDENTIFIERS",
+    sequenceName = "SEQUENCE_IDENTIFIERS" , allocationSize=1)  
 	public Long id;
 	
-	@Column(nullable = false)
+	@Column(name="DIIO",nullable = false)
 	public String diio;
 	
 	
@@ -46,6 +49,9 @@ public class Identifier implements Serializable{
 	
 	@Column(name="DATE_PLACEMENT")
 	public LocalDateTime datePlacement;
+	
+	@Column(name="STATE")
+	public String state;
 
 	public Long getBovine() {
 		return bovine;
@@ -55,10 +61,6 @@ public class Identifier implements Serializable{
 	public void setBovine(Long bovine) {
 		this.bovine = bovine;
 	}
-
-
-	@Column(name="STATE")
-	public String state;
 	
 	
 	public String getDiio() {

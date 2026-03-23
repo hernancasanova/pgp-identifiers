@@ -102,7 +102,7 @@ public class GlobalExceptionHandler {
             String causeMessage = ex.getCause().getCause().getMessage().toLowerCase();
 
             if (causeMessage.contains("foreign key")) {
-                message = "Referenceresource does not exist";
+                message = "Referenced resource does not exist";
             } else if (causeMessage.contains("duplicate")) {
                 message = "Duplicate value";
             }
