@@ -1,0 +1,121 @@
+#version: "3.5"
+services:      
+  db:
+    image: wnameless/oracle-xe-11g-r2
+    # image: oracleinanutshell/oracle-xe-11g:latest
+    # build: 
+    #   context: ./oracle
+    #   dockerfile: Dockerfile
+    container_name: db-pgp
+    ports: 
+      - 1521:1521
+    environment:
+      - ORACLE_CHARACTERSET=AL32UTF8
+      - NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+      - ORACLE_ALLOW_REMOTE=true
+      - INIT_DB=true
+    volumes:
+      - ./oracle:/docker-entrypoint-initdb.d
+    networks:
+      - net
+      - default
+
+  db2:
+    image: gvenzl/oracle-xe:latest
+    container_name: db-pgp2
+    ports: 
+      - 1522:1521
+    environment:
+      #- ORACLE_CHARACTERSET=UTF8
+      - ORACLE_PASSWORD=oracle
+      - ORACLE_ALLOW_REMOTE=true
+      - ORACLE_CHARACTERSET=AL32UTF8
+    volumes:
+      - ./oracle:/docker-entrypoint-initdb.d
+    networks:
+      - net
+      - default
+
+  postgres_pgp:
+    image: postgres:16
+    container_name: postgres_db_pgp
+    environment:
+      POSTGRES_DB: pgp_bovines
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./volumes:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d 
+  
+  frontend-angular:
+    image: pgp-front1.0
+    working_dir: /usr/src/app
+    build: 
+      context: ./plataformaGestionPredial
+      dockerfile: Dockerfile
+    container_name: front-pgp
+    volumes: 
+      - ./plataformaGestionPredial:/usr/src/app
+    networks: 
+      - net
+      - default
+    ports: 
+      - "4202:4200"
+    command: sh -c "npm install && npm start"
+
+
+  app:  
+    image: pgp-identifiers-db1-oracle-test
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: pgp-identifiers-db1-oracle-test
+    #working_dir: /var
+    environment: 
+      #- spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//host.docker.internal:1521/xe
+      - SPRING_DATASOURCE_USERNAME=system
+      - SPRING_DATASOURCE_PASSWORD=oracle
+      - SPRING_JPA_SHOW_SQL=true
+      - TZ="UTC"
+      - SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE=128MB
+      - SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE=128MB
+      - SPRING_SERVLET_MULTIPART_ENABLED=true
+      - server.servlet.context-path=/api
+      - spring.application.name=pgp-identifiers
+      - eureka.client.enabled=true
+      - eureka.client.register-with-eureka=true
+      - eureka.client.fetch-registry=true
+      - eureka.client.service-url.defaultZone=http://host.docker.internal:8761/eureka/
+    volumes:
+      #- ./src/main/java/com/pgp:/var
+      - ./:/var:cached
+      #- ./uploadedDocuments:/var
+    ports: 
+        - 8007:8007
+    networks:
+      - net
+      - default
+    #tty: true
+
+  # front:
+  #   image: "node:16"
+  #   container_name: frontend-angular
+  #   working_dir: /usr/src/app
+  #   volumes:
+  #     - ./visualizadorCaidaPrecipitaciones:/usr/src/app
+  #   ports:
+  #     - "4201:4200"
+  #   command: sh -c "npm start"
+  #   #command: bash -c "npm install && npm start"
+  #   networks:
+  #     - net
+  #     - default
+
+networks:
+  net:
+    name: net
+    driver: bridge
